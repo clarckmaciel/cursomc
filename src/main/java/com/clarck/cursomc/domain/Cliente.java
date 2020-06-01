@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import com.clarck.cursomc.domain.enums.TipoCliente;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -37,6 +38,9 @@ public class Cliente implements Serializable {
 	@CollectionTable(name = "TELEFONE")
 	private Set<String> telefones = new HashSet<>(); // Não aceita repetição
 
+	//Resolve problema da Recursividade Infinita em ligações bidirecionais. Usado em conjunto com @JsonBackReference.
+	//Pesquisa: https://www.it-swarm.dev/pt/java/diferenca-entre-jsonignore-e-jsonbackreference-jsonmanagedreference/826233169/
+	@JsonBackReference
 	@OneToMany(mappedBy = "cliente")
 	private List<Pedido> pedidos = new ArrayList<>();
 
